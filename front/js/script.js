@@ -6,7 +6,9 @@
 fetch("http://localhost:3000/api/products")
 .then((res) => res.json())
 .then(function (datas){
+    console.log(datas);
     datas.forEach(product => {
+
         let items =document.getElementById('items');
             a = document.createElement('a');
             article = document.createElement('article');
@@ -24,6 +26,12 @@ fetch("http://localhost:3000/api/products")
         article.appendChild(h3);
         article.appendChild(p);
         
+        a.href = product.id;
+        img.src= product.imageUrl;
+        h3.innerHTML = product.name;
+        img.alt = product.altTxt;
+        p.innerHTML = product.descritpion;
+
     });
 
 });
