@@ -6,32 +6,28 @@
 fetch("http://localhost:3000/api/products")
 .then((res) => res.json())
 .then(function (datas){
+
+  let section = document.getElementById('items');
+
     console.log(datas);
     datas.forEach(product => {
 
-        let items =document.getElementById('items');
-            a = document.createElement('a');
-            article = document.createElement('article');
-            article.classList.add("productCard");
-            img = document.createElement('img');
-            img.classList.add("productImage");
-            h3 = document.createElement('h3');
-            h3.classList.add('productName');
-            p = document.createElement('p');
-            p.classList.add('productDescritpion');
 
-        items.appendChild(a);
-        a.appendChild(article);
-        article.appendChild(img);
-        article.appendChild(h3);
-        article.appendChild(p);
-        
-        a.href = product.id;
-        img.src= product.imageUrl;
-        h3.innerHTML = product.name;
-        img.alt = product.altTxt;
-        p.innerHTML = product.descritpion;
+        section.innerHTML += `
+        <a href="./product.html?id=${product._id}">
+            <article>
+              <img src="${product.imageUrl}" alt="Lorem ipsum dolor sit amet, Kanap name1">
+              <h3 class="productName">${product.name}</h3>
+              <p class="productDescription">${product.description}</p>
+            </article>
+          </a> 
+        `
 
     });
 
 });
+
+
+
+
+
