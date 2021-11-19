@@ -21,26 +21,29 @@
 
 let section = document.getElementById('cart__items');
 
-let articles = JSON.parse(localStorage.getItem('article'));
+let articles = JSON.parse(localStorage.getItem('panier'));
 console.log(articles);
 
 
-for (let article of articles) {
+
+for (let id in articles) {
+  for (let color in articles[id].colors) {
+
     section.innerHTML += 
     `
     <article class="cart__item" data-id="{product-ID}">
 <div class="cart__item__img">
-  <img src="${article.imageItem}" alt="Photographie d'un canapé">
+  <img src="${articles[id].imageUrl}" alt="Photographie d'un canapé">
 </div>
 <div class="cart__item__content">
   <div class="cart__item__content__titlePrice">
-    <h2>${article.nameItem}</h2>
-    <p>42,00 €</p>
+    <h2>${articles[id].name} ${color}</h2>
+    <p>${articles[id].price}€</p>
   </div>
   <div class="cart__item__content__settings">
     <div class="cart__item__content__settings__quantity">
       <p>Qté : </p>
-      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${articles[id].colors[color]}">
     </div>
     <div class="cart__item__content__settings__delete">
       <p class="deleteItem">Supprimer</p>
@@ -49,36 +52,30 @@ for (let article of articles) {
 </div>
 </article>
     `
-}
+}}
 
-addCart.addEventListener('click', e => {
-  e.preventDefault()
-  let quantity = document.getElementById('quantity').value
-  let color = document.getElementById('colors').value
-  let panier = JSON.parse(localStorage.getItem('panier'))
+function displayTotal() {
+  let priceTotal = 0; 
+  let quantityTotal = 0; 
+  let articles = JSON.parse(localStorage.getItem('panier'));
 
-  if(!panier){
-    panier = {}
-  }
-
-
-if(!panier[product._id]){
-  let colors = {}
-  colors[color] = quantity
-
-    panier[product._id] = {
-      name: product.name,
-      price: product.price,
-      colors: colors
+  for (let id in articles) {
+    for (let color in articles[id].colors) {
+        quantityTotal += articles[id].colors[color];
+        priceTotal += articles[id].colors[color] * articles[id].price;
     }
-}else {
-  if(panier[product_id].colors[color]) {
-    panier[product_id].colors[color] += quantity
-  } else {
-    panier[product_id].colors[color] = quantity 
-  }
 }
 
-localStorage.setItem('panier', JSON.stringify(panier))
-});
+let totalQ = document.getElementById('totalQuantity'); 
+let totalP = document.getElementById('totalPrice');
+
+
+totalQ.innerHTML = quantityTotal;
+totalP.innerHTML = priceTotal;
+
+};
+
+displayTotal();
+
+
 
